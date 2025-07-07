@@ -9,10 +9,10 @@ export default function PostPage({ post }) {
     <>
       <Head>
         <title>{post.meta.title} | Cafeteras Portátiles</title>
-        <meta name="description" content={post.excerpt || post.meta.title} />
+        <meta name="description" content={post.meta.description || post.meta.title} />
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content={post.meta.title} />
-        <meta property="og:description" content={post.excerpt || post.meta.title} />
+        <meta property="og:description" content={post.meta.description || post.meta.title} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://cafeterasportatiles.online/posts/${post.slug}`} />
         <meta property="og:image" content={post.meta.image || '/default-og-image.jpg'} />
@@ -25,7 +25,7 @@ export default function PostPage({ post }) {
         </time>
         <div
           className={styles.content}
-          dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+          dangerouslySetInnerHTML={{ __html: post.content }}
         />
       </article>
     </>
@@ -39,7 +39,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const post = getPostBySlug(params.slug)
+  const post = await getPostBySlug(params.slug)
   return {
     props: { post }
   }
