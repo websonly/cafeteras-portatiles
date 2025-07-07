@@ -1,3 +1,4 @@
+# webon
 [build]
   # Comando que deseas usar
   command = "npm run build && npm run export"
