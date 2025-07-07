@@ -1,47 +1,42 @@
+jsx
+// pages/posts/[slug].js
+
+import Head from 'next/head'
 import { getPostSlugs, getPostBySlug } from '../../lib/posts'
+import styles from '../../styles/post.module.css'
+
+export default function PostPage({ post }) {
+  return (
+    <>
+      <Head>
+        <title>{post.meta.title} | Cafeteras Portátiles</title>
+        <meta name="description" content={post.excerpt || post.meta.title} />
+      </Head>
+
+      <article className={styles.container}>
+        <h1 className={styles.title}>{post.meta.title}</h1>
+        <time className={styles.date} dateTime={post.meta.date}>
+          {new Date(post.meta.date).toLocaleDateString()}
+        </time>
+        <div
+          className={styles.content}
+          dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+        />
+      </article>
+    </>
+  )
+}
 
 export async function getStaticPaths() {
-  const slugs = getPostSlugs().map((s) => s.replace(/\.md$/, ''))
-  return {
-    paths: slugs.map((slug) => ({ params: { slug } })),
-    fallback: false,
-  }
+  const slugs = getPostSlugs()
+  const paths = slugs.map((slug) => ({ params: { slug } }))
+  return { paths, fallback: false }
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getPostBySlug(params.slug)
-  return { props: { post } }
+  const post = getPostBySlug(params.slug)
+  return {
+    props: { post }
+  }
 }
 
-export default function PostPage({ post }) {
-  const { meta, content } = post
-  const title = meta.title
-  const description = meta.description || meta.title
-  const url = `https://cafeterasportatiles.online/posts/${post.slug}`
-  const image = meta.image || '/default-og-image.jpg'
-  return (
-  <>
-    <Head>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-
-      {/* Open Graph */}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:type" content="article" />
-      <meta property="og:url" content={url} />
-      <meta property="og:image" content={image} />
-
-      {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
-    </Head>
-    {/* resto de tu contenido */}
-    <h1 className="text-3xl font-bold mb-2">{meta.title}</h1>
-    …
-  </>
-)
-
-}
