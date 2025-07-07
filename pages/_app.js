@@ -1,5 +1,7 @@
 import '../styles/globals.css'
 import Script from 'next/script'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -18,7 +20,12 @@ function MyApp({ Component, pageProps }) {
         `}
       </Script>
 
-      <Component {...pageProps} />
+      {/* Estructura global */}
+      <Header />
+      <main className="px-4 py-8">
+        <Component {...pageProps} />
+      </main>
+      <Footer />
     </>
   )
 }
