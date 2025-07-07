@@ -58,13 +58,19 @@ if __name__ == "__main__":
 
     # (Opcional) Cargar lista de productos reales desde data/products.json
     products_list = ""
-    if os.path.exists("data/products.json"):
-        with open("data/products.json", encoding="utf-8") as pf:
+    debug_products_path = os.path.join(os.getcwd(), "data/products.json")
+    print("DEBUG: cwd=", os.getcwd())
+    print("DEBUG: Looking for products at", debug_products_path)
+    if os.path.exists(debug_products_path):
+        print("DEBUG: data/products.json exists?", True)
+        with open(debug_products_path, encoding="utf-8") as pf:
             products = json.load(pf)
         products_list = "\n\nModelos a comparar:\n" + "\n".join(
             f"- [{p['name']}](https://www.amazon.es/dp/{p['asin']}/?tag={ASSOCIATE_TAG})"
             for p in products
         )
+    else:
+        print("DEBUG: data/products.json exists?", False)
 
     for i in range(1, NUM_POSTS + 1):
         # Construir el prompt con f-string
@@ -79,9 +85,11 @@ if __name__ == "__main__":
             "3. Conclusión y recomendación.\n"
             f"{products_list}"
         )
+        print("DEBUG: prompt=", prompt)
 
         # Generar el texto completo
         raw = generate_post(prompt)
+        print("DEBUG: Received raw content (first 200 chars)=", raw[:200])
 
         # Extraer título y fecha, añadir frontmatter YAML
         lines = raw.split("\n")
