@@ -6,7 +6,7 @@
     "build": "next build && next export",
     "postbuild": "next-sitemap",
     "start": "next start"
-  },                                  ← aquí va la coma
+  },
   "dependencies": {
     "next": "13.4.4",
     "react": "18.2.0",
