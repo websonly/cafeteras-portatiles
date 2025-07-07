@@ -1,5 +1,6 @@
-import os, re, openai, time
+import os, re, openai, time, datetime
 from openai.error import RateLimitError, APIError
+
 
 NUM_POSTS = 2
 WORDS_PER_POST = 200
@@ -34,9 +35,23 @@ def generate_post(prompt):
 
 if __name__ == "__main__":
     os.makedirs("posts", exist_ok=True)
-    for i in range(1, NUM_POSTS+1):
-        p = f"Genera un artículo de {WORDS_PER_POST} palabras sobre '{DOMAIN}', con enlaces a Amazon."
-        content = affiliateify(generate_post(p))
-        with open(f"posts/post_{i}.md", "w", encoding="utf-8") as f:
+    for i in range(1, NUM_POSTS + 1):
+        prompt = (
+            f"Genera un artículo de aproximadamente {WORDS_PER_POST} palabras sobre '{DOMAIN}', "
+            "incluyendo ejemplos de enlaces a productos de Amazon."
+        )
+        raw = generate_post(prompt)
+        # --- EXTRA: extraer título y fecha y añadir frontmatter ---
+        lines = raw.split("\n")
+        # Primera línea debería ser título Markdown: "# Mi título"
+        title = lines[0].lstrip("# ").strip()
+        date = datetime.date.today().isoformat()
+        frontmatter = f"---\ntitle: {title}\ndate: {date}\n---\n\n"
+        content = frontmatter + raw
+        # -------------------------------------------------------------
+        # Aplicar enlaces de afiliado
+        content = affiliateify(content)
+        filename = f"posts/post_{i}.md"
+        with open(filename, "w", encoding="utf-8") as f:
             f.write(content)
-        print(f"✔ Generado post_{i}.md")
+        print(f"✔ Generado {filename}")
