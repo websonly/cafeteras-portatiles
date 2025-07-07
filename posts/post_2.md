@@ -5,4 +5,4 @@ date: 2025-07-07
 
 # Artículo provisional sobre cafeterasportatiles.online
 
-Contenído en breve.
+Contenido en breve.
