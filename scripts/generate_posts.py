@@ -18,24 +18,27 @@ DOMAIN = "cafeterasportatiles.online"
 RETRIES = 3
 BACKOFF = 2
 
-# Clave API de OpenAI
-# Obtenemos la clave API de OpenAI
+# Clave API de OpenAI (asegúrate de definir CHATGPT_API_KEY en tu entorno)
 openai.api_key = os.getenv("CHATGPT_API_KEY")
-# DEBUG: print para verificar que la clave se cargó correctamente (solo en entorno seguro)
+# DEBUG: verificar carga de la clave
 print(f"DEBUG: OpenAI API Key loaded: {'set' if openai.api_key else 'NOT set'}")
+
 
 def affiliateify(content: str) -> str:
     """
-    Añade tu etiqueta de afiliado a todos los enlaces de Amazon.es.
+    Añade tu etiqueta de afiliado a todos los enlaces de Amazon.es
+    que encuentre en el contenido.
     """
     pattern = r"(https://www\\.amazon\\.es/dp/([A-Z0-9]{10}))"
     return re.sub(pattern, lambda m: f"{m.group(1)}/?tag={ASSOCIATE_TAG}", content)
 
+
 def generate_post(prompt: str) -> str:
     """
-    Genera un post con la API de ChatGPT, con reintentos.
+    Llama a la API de ChatGPT para generar un post según el prompt.
+    Reintenta en caso de RateLimitError o APIError, mostrando debug.
     """
-    for attempt in range(RETRIES):
+    for i in range(RETRIES):
         try:
             resp = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
@@ -47,62 +50,56 @@ def generate_post(prompt: str) -> str:
             )
             return resp.choices[0].message.content
         except RateLimitError:
-            time.sleep(BACKOFF ** (attempt + 1))
-        except APIError:
-            break
-            except APIError as e:
+            print(f"DEBUG: RateLimitError on attempt {i+1}")
+            time.sleep(BACKOFF ** (i + 1))
+        except APIError as e:
             print(f"DEBUG: OpenAI APIError on attempt {i+1}: {e}")
-            break
+            time.sleep(BACKOFF ** (i + 1))
+    # Si tras reintentos sigue fallando, devolvemos placeholder
     return f"# Artículo provisional sobre {DOMAIN}\n\nContenido en breve."
 
+
 if __name__ == "__main__":
-    # Crear carpeta posts/
+    # Asegurar carpeta posts/
     os.makedirs("posts", exist_ok=True)
 
-    # DEBUG: mostrar directorio de trabajo y existencia de JSON
-    debug_path = os.path.join(os.getcwd(), "data/products.json")
-    print("DEBUG: cwd=", os.getcwd())
-    print("DEBUG: Looking for products at", debug_path)
-
-    # Cargar lista de productos
+    # (Opcional) Cargar productos de data/products.json
     products_list = ""
-    if os.path.exists(debug_path):
-        print("DEBUG: data/products.json exists?", True)
-        with open(debug_path, encoding="utf-8") as pf:
+    if os.path.exists("data/products.json"):
+        with open("data/products.json", encoding="utf-8") as pf:
             products = json.load(pf)
         products_list = "\n\nModelos a comparar:\n" + "\n".join(
             f"- [{p['name']}](https://www.amazon.es/dp/{p['asin']}/?tag={ASSOCIATE_TAG})"
             for p in products
         )
-    else:
-        print("DEBUG: data/products.json exists?", False)
 
-    # Generar posts
     for i in range(1, NUM_POSTS + 1):
-        # Construir y debug del prompt
+        # Construir el prompt
         prompt = (
-            f"Genera un artículo de aproximadamente {WORDS_PER_POST} palabras sobre '{DOMAIN}'. "
-            "Incluye una introducción, subtítulos claros, pros y contras, "
-            "y ejemplos de enlaces a productos de Amazon con tu afiliado."
-            f"{products_list}\n"
+            f"Genera un artículo de aproximadamente {WORDS_PER_POST} palabras "
+            f"sobre \"{DOMAIN}\". "
+            "Incluye una introducción, subtítulos claros para cada sección, "
+            "y ejemplos de enlaces a productos de Amazon con tu código de afiliado."
+            "\n\nEstructura sugerida:\n"
+            "1. Introducción al tema.\n"
+            "2. Pros y contras.\n"
+            "3. Conclusión y recomendación.\n"
+            f"{products_list}"
         )
-        print("DEBUG: prompt=", prompt)
 
         raw = generate_post(prompt)
-        print("DEBUG: Received raw content (first 200 chars)=", raw[:200])
 
-        # Extraer título y fecha
+        # Extraer título y fecha, añadir frontmatter
         lines = raw.split("\n")
-        title = lines[0].lstrip("# ").strip()
+        title = lines[0].lstrip("# ").strip() if lines else DOMAIN
         date = datetime.date.today().isoformat()
         frontmatter = f"---\ntitle: {title}\ndate: {date}\n---\n\n"
 
-        # Combinar y aplicar afiliados
         content = frontmatter + raw
         content = affiliateify(content)
 
-        # Guardar fichero
         filename = f"posts/post_{i}.md"
         with open(filename, "w", encoding="utf-8") as f:
             f.write(content)
+
         print(f"✔ Generado {filename}")
