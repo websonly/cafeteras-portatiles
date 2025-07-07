@@ -1,18 +1,18 @@
 {
   "name": "site-template",
   "version": "1.0.0",
-"scripts": {
-  "dev": "next dev",
-  "build": "next build && next export",
-  "export": "next export",
-  "postbuild": "next-sitemap",
-  "start": "next start"
-}
-,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "postbuild": "next-sitemap",
+    "start": "next start"
+  },                                  ← aquí va la coma
   "dependencies": {
-    "next-sitemap": "^2.4.0"
     "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "next-sitemap": "^2.4.0"
   }
 }
