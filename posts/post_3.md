@@ -1,51 +1,77 @@
----
-title: "Mejores cafeteras portátiles 2025: Guía completa"
-date: 2025-07-08
-description: "Descubre las 5 mejores cafeteras portátiles de 2025, sus características y recomendaciones para nómadas digitales."
----
+/* globals.css */
 
-# Mejores cafeteras portátiles 2025: Guía completa
+body {
+  font-family: "Inter", sans-serif;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+  padding: 0 1rem;
+}
 
-Viajar con un café de calidad ya no es un sueño: las cafeteras portátiles te permiten disfrutar de espresso, americano o moka en cualquier lugar. En esta guía, comparo las 5 opciones top de 2025 para que elijas la ideal según tu estilo de vida.
+h1, h2, h3 {
+  font-weight: 600;
+  color: #1a202c;
+}
 
-## 1. AeroPress Go
-- **Enlace:** [AeroPress Go](https://www.amazon.es/dp/B08FJBJGVV/?tag=websonly-21)  
-- **Peso:** 300 g  
-- **Capacidad:** 220 ml  
-- **Pros:** rápida, fácil de limpiar, gran sabor.  
-- **Contras:** necesita filtros de papel.
+h1 { font-size: 2rem; margin-top: 1.5rem; }
+h2 { font-size: 1.5rem; margin-top: 1.25rem; }
+h3 { font-size: 1.25rem; margin-top: 1rem; }
 
-## 2. Nanopresso
-- **Enlace:** [Nanopresso](https://www.amazon.es/dp/B07MNL4TZ5/?tag=websonly-21)  
-- **Presión:** 18 bar  
-- **Material:** plástico reforzado  
-- **Pros:** presión alta, crema intensa.  
-- **Contras:** práctica inicial para dosificar.
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
 
-## 3. Wacaco Minipresso
-- **Enlace:** [Minipresso](https://www.amazon.es/dp/B00BM38VZY/?tag=websonly-21)  
-- **Mecanismo:** manual por bombeo  
-- **Pros:** sin electricidad, supercompacta.  
-- **Contras:** tiempo de extracción.
+table th,
+table td {
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem;
+  text-align: left;
+}
 
-## 4. Handpresso Wild Hybrid
-- **Enlace:** [Handpresso Wild Hybrid](https://www.amazon.es/dp/B00FYT6RCM/?tag=websonly-21)  
-- **Compatible:** gas o bomba manual  
-- **Pros:** versátil, rinde crema excelente.  
-- **Contras:** voluminosa.
+table th {
+  background-color: #f7fafc;
+  font-weight: 600;
+}
 
-## 5. Staresso Portable Espresso
-- **Enlace:** [Staresso](https://www.amazon.es/dp/B07S7JBBCP/?tag=websonly-21)  
-- **Funciones:** espresso y cold brew  
-- **Pros:** multiuso, diseño ergonómico.  
-- **Contras:** limpieza algo laboriosa.
+a {
+  color: #3182ce;
+  text-decoration: none;
+}
 
----
+a:hover {
+  text-decoration: underline;
+}
 
-## Conclusión y recomendación
+blockquote {
+  border-left: 4px solid #3182ce;
+  padding-left: 1rem;
+  color: #4a5568;
+  margin: 1rem 0;
+}
 
-Para quienes buscan rapidez y facilidad, **AeroPress Go** sigue siendo la reina. Si eres un apasionado del espresso con crema, **Nanopresso** es imbatible. Elige la que mejor se adapte a tu aventura.
+ul {
+  list-style: disc inside;
+  margin: 0.5rem 0 1rem 0;
+}
 
----
+p {
+  margin: 0.75rem 0;
+}
 
-[Comprar AeroPress Go](https://www.amazon.es/dp/B08FJBJGVV/?tag=websonly-21)  
+button.cta {
+  display: inline-block;
+  background-color: #2b6cb0;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+button.cta:hover {
+  background-color: #2c5282;
+}
