@@ -2,6 +2,7 @@
 title: "Guía rápida: Cómo elegir tu cafetera portátil perfecta"
 date: 2025-07-08
 description: "Factores clave para escoger la cafetera portátil ideal según tu estilo de vida."
+image: "/ruta/a/imagen-og.jpg"
 ---
 
 # Guía rápida: Cómo elegir tu cafetera portátil perfecta
