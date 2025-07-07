@@ -1,0 +1,25 @@
+/* styles/post.module.css */
+
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.date {
+  display: block;
+  margin-bottom: 1.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.content {
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
