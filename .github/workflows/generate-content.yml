@@ -28,6 +28,7 @@ jobs:
       - name: Generate posts
         env:
           CHATGPT_API_KEY: ${{ secrets.CHATGPT_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.CHATGPT_API_KEY }}
         run: |
           python scripts/generate_posts.py
 
