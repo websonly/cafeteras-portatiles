@@ -21,6 +21,8 @@ BACKOFF = 2
 # Clave API de OpenAI
 # Obtenemos la clave API de OpenAI
 openai.api_key = os.getenv("CHATGPT_API_KEY")
+# DEBUG: print para verificar que la clave se cargó correctamente (solo en entorno seguro)
+print(f"DEBUG: OpenAI API Key loaded: {'set' if openai.api_key else 'NOT set'}")
 
 def affiliateify(content: str) -> str:
     """
