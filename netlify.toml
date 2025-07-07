@@ -1,8 +1,9 @@
 # webon
 [build]
   # Comando que deseas usar
-  command = "npm run build && npm run export"
-  publish  = "out"
+  command = "npm run build"
+  publish = "out"
+
 
 # Evita que se aplique el plugin Next.js
 [build.environment]
