@@ -1,4 +1,3 @@
-jsx
 // pages/posts/[slug].js
 
 import Head from 'next/head'
@@ -11,6 +10,12 @@ export default function PostPage({ post }) {
       <Head>
         <title>{post.meta.title} | Cafeteras Portátiles</title>
         <meta name="description" content={post.excerpt || post.meta.title} />
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content={post.meta.title} />
+        <meta property="og:description" content={post.excerpt || post.meta.title} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://cafeterasportatiles.online/posts/${post.slug}`} />
+        <meta property="og:image" content={post.meta.image || '/default-og-image.jpg'} />
       </Head>
 
       <article className={styles.container}>
@@ -39,4 +44,3 @@ export async function getStaticProps({ params }) {
     props: { post }
   }
 }
-
