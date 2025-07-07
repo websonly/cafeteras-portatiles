@@ -50,6 +50,9 @@ def generate_post(prompt: str) -> str:
             time.sleep(BACKOFF ** (attempt + 1))
         except APIError:
             break
+            except APIError as e:
+            print(f"DEBUG: OpenAI APIError on attempt {i+1}: {e}")
+            break
     return f"# Artículo provisional sobre {DOMAIN}\n\nContenido en breve."
 
 if __name__ == "__main__":
