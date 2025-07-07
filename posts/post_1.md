@@ -2,6 +2,7 @@
 title: "Las 5 mejores cafeteras portátiles para nómadas digitales"
 date: 2025-07-08
 description: "Comparativa de las top 5 cafeteras portátiles para quienes viven en movimiento."
+image: "/ruta/a/imagen-og.jpg"
 ---
 
 # Las 5 mejores cafeteras portátiles para nómadas digitales
