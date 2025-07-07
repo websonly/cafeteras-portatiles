@@ -19,9 +19,12 @@ RETRIES = 3
 BACKOFF = 2
 
 # Clave API de OpenAI (asegúrate de definir CHATGPT_API_KEY en tu entorno)
-openai.api_key = os.getenv("CHATGPT_API_KEY")
+openai.api_key = os.getenv("CHATGPT_API_KEY") or os.getenv("OPENAI_API_KEY")
 # DEBUG: verificar carga de la clave
-print(f"DEBUG: OpenAI API Key loaded: {'set' if openai.api_key else 'NOT set'}")
+def _debug_env():
+    key_set = 'set' if openai.api_key else 'NOT set'
+    print(f"DEBUG: OpenAI API Key loaded: {key_set}")
+_debug_env()
 
 
 def affiliateify(content: str) -> str:
@@ -40,6 +43,7 @@ def generate_post(prompt: str) -> str:
     """
     for i in range(RETRIES):
         try:
+            print(f"DEBUG: Sending prompt to OpenAI (attempt {i+1})")
             resp = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
@@ -48,6 +52,7 @@ def generate_post(prompt: str) -> str:
                 ],
                 temperature=0.7,
             )
+            print("DEBUG: Received response from OpenAI")
             return resp.choices[0].message.content
         except RateLimitError:
             print(f"DEBUG: RateLimitError on attempt {i+1}")
